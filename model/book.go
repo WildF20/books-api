@@ -1,8 +1,11 @@
 package model
 
 type Book struct {
-	ID     string  `json:"id"`
+	ID     int  `json:"id"`
 	Title  string  `json:"title"`
 	Author string  `json:"author"`
 	PublishedYear  int `json:"published_year"`
 }
+
+var Books = make(map[int]Book)
+var LastID = 0
