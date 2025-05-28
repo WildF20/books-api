@@ -2,7 +2,7 @@ package main
 
 import (
 	"books-api/routes"
-	"books-api/middleware"
+	"books-api/app/middleware"
 	"net/http"
 
 	"github.com/go-chi/chi/v5"
