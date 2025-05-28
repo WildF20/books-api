@@ -1,6 +1,8 @@
 package handler
 
 import (
+	"books-api/app/middleware"
+	"books-api/app/request"
 	"books-api/data/model"
 	"books-api/data/store"
 
@@ -13,15 +15,30 @@ import (
 
 // CreateBook handles the creation of a new book.
 func CreateBook(w http.ResponseWriter, r *http.Request) {
-	var book model.Book
 	bs := store.GetBookStore()
 	
-	// Decode and validate the incoming JSON request body
-	if err := json.NewDecoder(r.Body).Decode(&book); err != nil {
-		http.Error(w, err.Error(), http.StatusBadRequest)
+	// retrieve the validated request from the context
+	reqVal := r.Context().Value(middleware.CreateBookKey)
+
+	// check request context
+	if reqVal == nil {
+		http.Error(w, "Missing request context", http.StatusInternalServerError)
 		return
 	}
-	// End Validate JSON
+
+	createReq, ok := reqVal.(request.CreateBookRequest)
+	if !ok {
+		http.Error(w, "Invalid request context", http.StatusInternalServerError)
+		return
+	}
+	// End check request context
+
+	// Map the validated request to Book model
+	book := model.Book{
+		Title:         createReq.Title,
+		Author:        createReq.Author,
+		PublishedYear: createReq.PublishedYear,
+	}
 
 	// Store the book in the model
 	bs.AddBook(book)
@@ -71,15 +88,30 @@ func GetBookByID(w http.ResponseWriter, r *http.Request) {
 // UpdateBook updates an existing book by its ID.
 func UpdateBook(w http.ResponseWriter, r *http.Request)  {
 	id := chi.URLParam(r, "id")
-	var book model.Book
 	bs := store.GetBookStore()
 
-	// Decode and validate the incoming JSON request body
-	if err := json.NewDecoder(r.Body).Decode(&book); err != nil {
-		http.Error(w, err.Error(), http.StatusBadRequest)
+	// retrieve the validated request from the context
+	reqVal := r.Context().Value(middleware.CreateBookKey)
+
+	// check request context
+	if reqVal == nil {
+		http.Error(w, "Missing request context", http.StatusInternalServerError)
 		return
 	}
-	// End Validate JSON
+
+	createReq, ok := reqVal.(request.CreateBookRequest)
+	if !ok {
+		http.Error(w, "Invalid request context", http.StatusInternalServerError)
+		return
+	}
+	// End check request context
+
+	// Map the validated request to Book model
+	book := model.Book{
+		Title:         createReq.Title,
+		Author:        createReq.Author,
+		PublishedYear: createReq.PublishedYear,
+	}
 
 	// Validate the book data
 	bookID, err := strconv.Atoi(id)
