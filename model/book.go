@@ -6,6 +6,3 @@ type Book struct {
 	Author string  `json:"author"`
 	PublishedYear  int `json:"published_year"`
 }
-
-var Books = make(map[int]Book)
-var LastID = 0
