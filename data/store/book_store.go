@@ -3,7 +3,7 @@ package store
 import (
 	"sync"
 
-	"books-api/model"
+	"books-api/data/model"
 )
 
 type bookStore struct {

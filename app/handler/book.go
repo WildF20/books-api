@@ -1,8 +1,8 @@
 package handler
 
 import (
-	"books-api/model"
-	"books-api/store"
+	"books-api/data/model"
+	"books-api/data/store"
 
 	"encoding/json"
 	"net/http"

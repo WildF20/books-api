@@ -1,7 +1,7 @@
 package api
 
 import (
-	"books-api/handler"
+	"books-api/app/handler"
 
 	"github.com/go-chi/chi/v5"
 )
